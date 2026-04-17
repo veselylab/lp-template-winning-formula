@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+
+<!-- SEO Meta Tags -->
+<title>Landing Page – Template</title>
+<meta property="og:title" content="Landing Page – Template" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Landing Page – Template" />
+<!-- End SEO Meta Tags -->
+
+<script data-field-replace>
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  var fields={};
+  var paramMap={
+    'first_name':'firstName','last_name':'lastName','full_name':'fullName',
+    'email':'email','phone':'phone','company':'company',
+    'city':'city','state':'state','country':'country'
+  };
+  var skipTags={'SCRIPT':1,'STYLE':1,'NOSCRIPT':1,'TEXTAREA':1,'CODE':1,'PRE':1};
+  var hasUrlFields=false;
+  for(var p in paramMap){
+    var v=params.get(p);
+    if(v){fields[paramMap[p]]=v;hasUrlFields=true;}
+  }
+  var contactId=params.get('contact_id');
+  function esc(s){
+    if(!s)return s;
+    var d=document.createElement('div');
+    d.appendChild(document.createTextNode(s));
+    return d.innerHTML;
+  }
+  function doReplace(data){
+    var r={};
+    r['{{full_name}}']=esc(((data.firstName||'')+' '+(data.lastName||'')).trim()||((data.fullName||data.name)||''));
+    r['{{first_name}}']=esc(data.firstName||(data.name?data.name.split(' ')[0]:'')||'');
+    r['{{last_name}}']=esc(data.lastName||(data.name&&data.name.indexOf(' ')>-1?data.name.substring(data.name.indexOf(' ')+1):'')||'');
+    r['{{email}}']=esc(data.email||'');
+    r['{{phone}}']=esc(data.phone||'');
+    r['{{company}}']=esc(data.company||'');
+    r['{{city}}']=esc(data.city||'');
+    r['{{state}}']=esc(data.state||'');
+    r['{{country}}']=esc(data.country||'');
+    r['{{date}}']=new Date().toLocaleDateString();
+    r['{{time}}']=new Date().toLocaleTimeString();
+    r['{{location}}']=[data.city,data.state,data.country].filter(Boolean).join(', ');
+    r['{{tracking_id}}']=esc(data.trackingId||'');
+    r['{{lastClickedProduct}}']=esc(data.lastClickedProduct||'');
+    r['{{lastProductClickDate}}']=esc(data.lastProductClickDate||'');
+    r['{{lastClickedProductPrice}}']=esc(data.lastClickedProductPrice||'');
+    r['{{lastClickedProductURL}}']=esc(data.lastClickedProductURL||'');
+    r['{{productsClickedCount}}']=esc(data.productsClickedCount||'0');
+    r['{{ip_address}}']=esc(data.ipAddress||'');
+    r['{{ip}}']=esc(data.ipAddress||'');
+    if(data.customFields){
+      for(var k in data.customFields){
+        r['{{'+k+'}}']=esc(String(data.customFields[k]||''));
+      }
+    }
+    params.forEach(function(v,k){
+      if(!paramMap[k]&&k!=='contact_id'&&k!=='page_id'&&k.indexOf('utm_')!==0){
+        r['{{'+k+'}}']=esc(v);
+      }
+    });
+    var hasValues=false;
+    for(var key in r){if(r[key]){hasValues=true;break;}}
+    if(!hasValues)return;
+    var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        var p=n.parentNode;
+        if(p&&skipTags[p.nodeName])return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while(node=walker.nextNode()){
+      var txt=node.nodeValue;
+      if(txt&&txt.indexOf('{{')>-1){
+        var changed=txt;
+        for(var ph in r){
+          if(r[ph]&&changed.indexOf(ph)>-1){
+            changed=changed.split(ph).join(r[ph]);
+          }
+        }
+        if(changed!==txt)node.nodeValue=changed;
+      }
+    }
+    var attrs=['value','placeholder','content','alt','title'];
+    attrs.forEach(function(attr){
+      var els=document.querySelectorAll('['+attr+'*="{{"]');
+      for(var i=0;i<els.length;i++){
+        var tag=els[i].tagName;
+        if(skipTags[tag])continue;
+        var val=els[i].getAttribute(attr);
+        if(val){
+          var nv=val;
+          for(var ph in r){
+            if(r[ph]&&nv.indexOf(ph)>-1){
+              nv=nv.split(ph).join(r[ph]);
+            }
+          }
+          if(nv!==val)els[i].setAttribute(attr,nv);
+        }
+      }
+    });
+  }
+  function run(){
+    if(contactId){
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','https://app.vesely.ai/api/landing/context/'+encodeURIComponent(contactId)+'?page_id=3336');
+      xhr.onload=function(){
+        if(xhr.status===200){
+          try{
+            var resp=JSON.parse(xhr.responseText);
+            if(resp.success&&resp.contact){
+              var merged=resp.contact;
+              for(var k in fields){merged[k]=fields[k];}
+              doReplace(merged);
+              return;
+            }
+          }catch(e){}
+        }
+        if(hasUrlFields)doReplace(fields);
+      };
+      xhr.onerror=function(){if(hasUrlFields)doReplace(fields);};
+      xhr.send();
+    }else if(hasUrlFields){
+      doReplace(fields);
+    }
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}
+  else{run();}
+})();
+</script>
+<script data-payment>
+(function(){
+  var slug='irPKqP';
+  var apiBase='https://app.vesely.ai';
+  function findEmail(){
+    var ids=['email','emailAddress','buyer-email','buyerEmail','user-email','userEmail','checkout-email','customer-email','contact-email'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value&&el.value.includes('@'))return el.value.trim();}
+    var inputs=document.querySelectorAll('input[type="email"],input[name*="email"],input[placeholder*="email"],input[placeholder*="Email"]');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value&&inputs[j].value.includes('@'))return inputs[j].value.trim();}
+    return '';
+  }
+  function findName(){
+    var ids=['name','fullName','full-name','buyer-name','buyerName','customer-name','userName','user-name'];
+    for(var i=0;i<ids.length;i++){var el=document.getElementById(ids[i]);if(el&&el.value)return el.value.trim();}
+    var inputs=document.querySelectorAll('input[name*="name"]:not([name*="email"]):not([type="email"]),input[placeholder*="name"]:not([placeholder*="email"]):not([type="email"]),input[placeholder*="Name"]:not([type="email"])');
+    for(var j=0;j<inputs.length;j++){if(inputs[j].value)return inputs[j].value.trim();}
+    return '';
+  }
+  var __realProcessPayment=function(a,b,c,d,e){
+    var amountCents,email,productName,productDescription,customerName,quantity;
+    if(a&&typeof a==='object'){
+      amountCents=a.amountCents;email=a.email;productName=a.productName;
+      productDescription=a.productDescription||'';customerName=a.name||'';quantity=a.quantity||1;
+    }else{
+      amountCents=typeof a==='number'?a:0;productName=typeof b==='string'?b:'';
+      productDescription=typeof c==='string'?c:'';email='';customerName='';quantity=1;
+    }
+    if(!email)email=findEmail();
+    if(!customerName)customerName=findName();
+    if(!productName){alert('Product name is required.');return Promise.reject('no_product_name');}
+    if(!amountCents||amountCents<100){alert('Amount must be at least $1.00');return Promise.reject('invalid_amount');}
+    if(!email){alert('Please enter your email address.');return Promise.reject('no_email');}
+    var successBase=window.location.href.split('?')[0];
+    return fetch(apiBase+'/api/landing-pages/public/'+slug+'/payment/checkout',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,name:customerName,amountCents:amountCents,productName:productName,productDescription:productDescription,quantity:quantity,successUrl:successBase+'?payment=success&product='+encodeURIComponent(productName)+'&session_id={CHECKOUT_SESSION_ID}',cancelUrl:successBase+'?payment=cancelled'})
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d.checkoutUrl){window.location.href=d.checkoutUrl;}
+      else{alert(d.error||'Failed to process payment');throw new Error(d.error);}
+    });
+  };
+  Object.defineProperty(window,'__processPayment',{value:__realProcessPayment,writable:false,configurable:false});
+  document.addEventListener('DOMContentLoaded',function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    if(urlParams.get('payment')==='success'){
+      var pName=urlParams.get('product')||'your item';
+      var overlay=document.createElement('div');overlay.id='payment-success-overlay';
+      overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999999;font-family:system-ui,-apple-system,sans-serif;';
+      overlay.innerHTML='<div style="background:white;border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.15);"><div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="margin:0 0 12px;font-size:24px;font-weight:700;color:#111827;">Payment Successful!</h2><p style="margin:0 0 24px;color:#6b7280;font-size:16px;">Thank you for purchasing '+pName.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'.</p><button onclick="document.getElementById(\'payment-success-overlay\').remove();window.history.replaceState({},\'\',window.location.pathname);" style="padding:12px 32px;font-size:16px;font-weight:600;background:#16a34a;color:white;border:none;border-radius:8px;cursor:pointer;">Continue</button></div>';
+      document.body.appendChild(overlay);
+    }
+  });
+})();
+</script>  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div>
+      <div class="nav-logo">Brand<span>.</span></div>
+      <div class="nav-tagline">Logo &amp; Tagline — always visible</div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#sec-2">Problem</a></li>
+      <li><a href="#sec-3">Services</a></li>
+      <li><a href="#sec-5">Testimonials</a></li>
+      <li><a href="#sec-7">FAQ</a></li>
+      <li><a href="#sec-8">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- 1. HEADLINE + CTA -->
+<section id="sec-1" class="section-wrap">
+  <span class="sec-num">1</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <span class="eyebrow">↳ 1. Headline</span>
+        <h1>Your Compelling Main Headline Goes Right Here</h1>
+        <p class="hero-sub">This is your tagline or supporting statement. Address the core pain, spark curiosity, and lead the eye to the form on the right.</p>
+      </div>
+      <div>
+        <div class="cta-card">
+          <div class="cta-card-header">
+            <span class="cta-badge">Call to Action</span>
+            <h3>Get in Touch Today</h3>
+            <p>Fill in the form — we'll get back within 24 hours.</p>
+          </div>
+          <div id="lp-form-wrap">
+            <div class="lp-form">
+              <div>
+                <label for="f-name">Full Name *</label>
+                <input type="text" id="f-name" name="full_name" placeholder="Jan Novák" autocomplete="name" tabindex="1">
+              </div>
+              <div>
+                <label for="f-email">Email *</label>
+                <input type="email" id="f-email" name="email" placeholder="jan@firma.cz" autocomplete="email" tabindex="2">
+              </div>
+              <div>
+                <label for="f-phone">Phone</label>
+                <input type="tel" id="f-phone" name="phone" placeholder="+420 600 000 000" autocomplete="tel" tabindex="3">
+              </div>
+              <div>
+                <label for="f-msg">Message</label>
+                <textarea id="f-msg" name="message" placeholder="Tell us how we can help you..." tabindex="4"></textarea>
+              </div>
+              <button type="button" id="btn-send" class="btn-submit" tabindex="5">Send Message →</button>
+              <p class="form-note">🔒 Your information is 100% secure. No spam, ever.</p>
+            </div>
+          </div>
+          <div class="form-success" id="form-success">
+            <div class="check">✅</div>
+            <h4>Message Sent!</h4>
+            <p>Thank you — we'll be in touch within 24 hours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. PROBLEM -->
+<section id="sec-2" class="section-wrap">
+  <span class="sec-num" style="background:var(--blue-dk);">2</span>
+  <div class="container" style="padding-top:90px;padding-bottom:80px;">
+    <div class="problem-grid">
+      <div class="problem-image-box"><div>🖼</div><span class="problem-image-label">Problem illustration</span></div>
+      <div class="problem-text">
+        <span class="eyebrow">↳ 2. Problem</span>
+        <h2>Describe the Pain Your Clientele Faces Every Day</h2>
+        <p>This section is about empathy. Name the exact problem your audience is dealing with — in their language, not yours.</p>
+        <p>Walk them through the frustration, the wasted time, the missed opportunities. Make them feel seen before you offer any solution.</p>
+        <ul class="pain-list">
+          <li>Pain point #1 — a specific, relatable frustration</li>
+          <li>Pain point #2 — the cost of doing nothing</li>
+          <li>Pain point #3 — what they've tried and why it failed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. SOLUTION -->
+<section id="sec-3" class="section-wrap">
+  <span class="sec-num">3</span>
+  <div class="container" style="padding-top:90px;padding-bottom:80px;">
+    <div class="section-header">
+      <span class="eyebrow">↳ 3. Solution / Services</span>
+      <h2>Here's How We Solve That Problem for You</h2>
+      <p>Describe your solution and the different services you cover. Focus on outcomes, not features.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-icon">🖼</div><h3>Service / Solution One</h3><p>Explain how this specific service solves part of the problem. Be concrete about the outcome.</p></div>
+      <div class="service-card"><div class="service-icon">🖼</div><h3>Service / Solution Two</h3><p>Each service card should address a different dimension of the problem. Avoid jargon.</p></div>
+      <div class="service-card"><div class="service-icon">🖼</div><h3>Service / Solution Three</h3><p>The third card often lands best when it addresses the most common objection or biggest fear.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PORTFOLIO -->
+<section id="sec-4" class="section-wrap">
+  <span class="sec-num" style="background:#16a34a;">4</span>
+  <div class="container" style="padding-top:90px;padding-bottom:80px;">
+    <div class="section-header">
+      <span class="eyebrow">↳ 4. Proof / Portfolio</span>
+      <h2>Evidence That We Deliver What We Promise</h2>
+      <p>Show an overwhelming amount of proof. Case studies, projects, before/after results.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="portfolio-item"><div class="portfolio-thumb"><div>🖼</div><span class="portfolio-thumb-label">Project image</span></div><div class="portfolio-meta"><h4>Case Study One</h4><span>Industry · Result achieved</span></div></div>
+      <div class="portfolio-item"><div class="portfolio-thumb"><div>🖼</div><span class="portfolio-thumb-label">Project image</span></div><div class="portfolio-meta"><h4>Case Study Two</h4><span>Industry · Result achieved</span></div></div>
+      <div class="portfolio-item"><div class="portfolio-thumb"><div>🖼</div><span class="portfolio-thumb-label">Project image</span></div><div class="portfolio-meta"><h4>Case Study Three</h4><span>Industry · Result achieved</span></div></div>
+      <div class="portfolio-item"><div class="portfolio-thumb"><div>🖼</div><span class="portfolio-thumb-label">Project image</span></div><div class="portfolio-meta"><h4>Case Study Four</h4><span>Industry · Result achieved</span></div></div>
+      <div class="portfolio-item"><div class="portfolio-thumb"><div>🖼</div><span class="portfolio-thumb-label">Project image</span></div><div class="portfolio-meta"><h4>Case Study Five</h4><span>Industry · Result achieved</span></div></div>
+      <div class="portfolio-item"><div class="portfolio-thumb"><div>🖼</div><span class="portfolio-thumb-label">Project image</span></div><div class="portfolio-meta"><h4>Case Study Six</h4><span>Industry · Result achieved</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. TESTIMONIALS -->
+<section id="sec-5" class="section-wrap">
+  <span class="sec-num" style="background:var(--blue);">5</span>
+  <div class="container" style="padding-top:90px;padding-bottom:80px;">
+    <div class="section-header">
+      <span class="eyebrow" style="color:var(--blue);">↳ 5. Proof / Testimonials</span>
+      <h2>What Our Clients Say About Working With Us</h2>
+      <p>Real words from real clients. Nothing converts better than a peer's honest experience.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"This is where a genuine client quote goes. The more specific and outcome-focused, the better."</p><div class="testimonial-author"><div class="author-avatar">🖼</div><div><div class="author-name">Client Full Name</div><div class="author-title">Position, Company Name</div></div></div></div>
+      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"Second testimonial here. A different industry or use case adds credibility. Keep it authentic."</p><div class="testimonial-author"><div class="author-avatar">🖼</div><div><div class="author-name">Client Full Name</div><div class="author-title">Position, Company Name</div></div></div></div>
+      <div class="testimonial-card"><div class="stars">★★★★★</div><p class="testimonial-text">"Third testimonial — ideally addresses a common objection. Speak directly to the hesitation."</p><div class="testimonial-author"><div class="author-avatar">🖼</div><div><div class="author-name">Client Full Name</div><div class="author-title">Position, Company Name</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. ABOUT -->
+<section id="sec-6" class="section-wrap">
+  <span class="sec-num">6</span>
+  <div class="container" style="padding-top:90px;padding-bottom:80px;">
+    <div class="about-grid">
+      <div class="about-image-box"><div>🖼</div><span class="about-image-label">Photo: You / Your team</span></div>
+      <div class="about-text">
+        <span class="eyebrow">↳ 6. About Us</span>
+        <h2>A Short, Human Section — Who You Are</h2>
+        <p>This section is deliberately brief. Show a picture of you and/or your team. People buy from people.</p>
+        <p>Share your why — why you do this work, what drives you, and why clients trust you. Be real.</p>
+        <div class="team-row">
+          <div class="team-member"><div class="team-avatar">🖼</div><strong>Full Name</strong><span>Role</span></div>
+          <div class="team-member"><div class="team-avatar">🖼</div><strong>Full Name</strong><span>Role</span></div>
+          <div class="team-member"><div class="team-avatar">🖼</div><strong>Full Name</strong><span>Role</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FAQ -->
+<section id="sec-7" class="section-wrap">
+  <span class="sec-num" style="background:var(--blue);">7</span>
+  <div class="container" style="padding-top:90px;padding-bottom:80px;">
+    <div class="section-header">
+      <span class="eyebrow" style="color:var(--blue);">↳ 7. FAQ</span>
+      <h2>Answers to Every Question That Comes Up</h2>
+      <p>Answer ALL questions that tend to arise in sales discussions. Remove doubt, remove friction.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">What is the most common question your prospect asks first?<span class="faq-icon">+</span></button><div class="faq-answer"><p>This is where your answer goes. Be direct, honest, and specific.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">How long does it take / what does the process look like?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Walk them through the process step by step. A clear process reduces hesitation.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">What's the pricing / how does the investment work?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Either give a clear price or explain how pricing is determined. Transparency builds trust.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">What makes you different from other providers?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Give a specific, provable differentiator — a unique process, a guarantee, or a standout result.</p></div></div>
+      <div class="faq-item"><button class="faq-question" onclick="toggleFaq(this)">What happens after I submit the contact form?<span class="faq-icon">+</span></button><div class="faq-answer"><p>Describe exactly what the next steps are: who reaches out, how fast, and what commitment is required.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. CTA -->
+<section id="sec-8" class="section-wrap">
+  <span class="sec-num">8</span>
+  <div class="container" style="padding-top:90px;padding-bottom:80px;">
+    <span class="eyebrow">↳ 8. Call to Action</span>
+    <h2>You've Read This Far — Now Take the Next Step</h2>
+    <p>After reading your entire landing page, this CTA encourages people to take action.</p>
+    <a href="#sec-1" class="btn-cta">Get Started Today →</a>
+  </div>
+</section>
+
+<!-- 9. FOOTER -->
+<footer id="sec-9">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">Brand<span style="color:var(--accent);">.</span></div>
+        <p>Create links to relevant content. Your footer is the last thing a visitor sees — make it useful and easy to navigate.</p>
+        <div class="social-row">
+          <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+          <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="social-icon" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Service One</a></li><li><a href="#">Service Two</a></li><li><a href="#">Service Three</a></li><li><a href="#">All Services</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="#sec-6">About Us</a></li><li><a href="#sec-5">Testimonials</a></li><li><a href="#sec-4">Portfolio</a></li><li><a href="#">Blog</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">hello@brand.com</a></li><li><a href="#">+420 000 000 000</a></li><li><a href="#sec-7">FAQ</a></li><li><a href="#sec-1">Get a Quote</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Brand Name · All rights reserved</p>
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div class="footer-bottom-socials">
+          <a href="#" class="social-icon" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+          <a href="#" class="social-icon" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="social-icon" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        </div>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CHAT WIDGET -->
+<div id="cw-wrap">
+  <div id="cw-panel">
+    <div id="cw-header">
+      <div class="cw-avatar">🤖</div>
+      <div class="cw-header-text">
+        <div class="cw-name">Assistant</div>
+        <div class="cw-status"><span class="cw-dot"></span> Online — typically replies instantly</div>
+      </div>
+      <button id="cw-close" onclick="cwClose()">✕</button>
+    </div>
+    <div id="cw-messages"></div>
+    <div id="cw-quick"></div>
+    <div id="cw-footer">
+      <input id="cw-input" type="text" placeholder="Type a message…" onkeydown="if(event.key==='Enter')cwSend()">
+      <button id="cw-send" onclick="cwSend()">➤</button>
+    </div>
+  </div>
+  <div id="cw-toggle-wrap">
+    <button id="cw-toggle" onclick="cwToggle()"><span class="cw-t-icon">💬</span></button>
+    <div id="cw-notif">1</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── FAQ ──
+  window.toggleFaq = function(btn) {
+    var item = btn.closest('.faq-item');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(i){ i.classList.remove('open'); });
+    if (!isOpen) item.classList.add('open');
+  };
+
+  // ── FORM SUBMIT ──
+  var WEBHOOK = 'https://app.vesely.ai/api/webhooks/flow/2515/2145b963bb2ffdefa584121ed4d99a2426a3d32d444d6559750469a04e036589';
+
+  document.getElementById('btn-send').addEventListener('click', function() {
+    var name  = document.getElementById('f-name').value.trim();
+    var email = document.getElementById('f-email').value.trim();
+    var phone = document.getElementById('f-phone').value.trim();
+    var msg   = document.getElementById('f-msg').value.trim();
+    if (!name || !email) { alert('Prosím vyplňte jméno a email.'); return; }
+    var btn = this;
+    btn.textContent = 'Odesílám…'; btn.disabled = true;
+    fetch(WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contactName: name, contactEmail: email, contactPhone: phone, data: { message: msg } })
+    }).catch(function(){}).finally(function() {
+      document.getElementById('lp-form-wrap').style.display = 'none';
+      var s = document.getElementById('form-success');
+      s.style.display = 'flex';
+    });
+  });
+
+  // ── CHAT WIDGET ──
+  var cwMsgs = document.getElementById('cw-messages');
+  var cwInput = document.getElementById('cw-input');
+  var cwQuick = document.getElementById('cw-quick');
+  var cwPanel = document.getElementById('cw-panel');
+  var cwBtn   = document.getElementById('cw-toggle');
+  var cwNotif = document.getElementById('cw-notif');
+  var cwOpen  = false;
+  var cwHist  = [];
+
+  var SYS = 'You are a friendly, professional assistant on a B2B landing page. Help visitors understand the services, answer questions, and guide them toward filling in the contact form. Keep answers short (2-4 sentences). Be warm and direct. Always reply in the same language the user writes in.';
+  var GREETING = "👋 Hi there! I'm here to help. What can I tell you about our services?";
+
+  setTimeout(function() {
+    cwMsg('bot', GREETING);
+    cwQR(["What do you offer?","How does it work?","What's the pricing?","Get started"]);
+    cwHist.push({ role: 'assistant', content: GREETING });
+  }, 800);
+
+  window.cwToggle = function() {
+    cwOpen = !cwOpen;
+    cwPanel.classList.toggle('open', cwOpen);
+    cwBtn.classList.toggle('active', cwOpen);
+    if (cwNotif) cwNotif.remove();
+    if (cwOpen) { setTimeout(function(){ cwInput.focus(); }, 300); cwScroll(); }
+  };
+  window.cwClose = function() { cwOpen = false; cwPanel.classList.remove('open'); cwBtn.classList.remove('active'); };
+
+  function cwMsg(role, text) {
+    var w = document.createElement('div'); w.className = 'cw-msg ' + role;
+    w.innerHTML = role === 'bot'
+      ? '<div class="cw-msg-avatar">🤖</div><div class="cw-bubble">' + text + '</div>'
+      : '<div class="cw-bubble">' + text + '</div>';
+    cwMsgs.appendChild(w); cwScroll(); return w;
+  }
+  function cwTyping() {
+    var w = document.createElement('div'); w.className = 'cw-msg bot cw-typing';
+    w.innerHTML = '<div class="cw-msg-avatar">🤖</div><div class="cw-bubble"><div class="cw-dots"><span></span><span></span><span></span></div></div>';
+    cwMsgs.appendChild(w); cwScroll(); return w;
+  }
+  function cwQR(list) {
+    cwQuick.innerHTML = '';
+    list.forEach(function(r) {
+      var b = document.createElement('button'); b.className = 'cw-qr'; b.textContent = r;
+      b.onclick = function() { cwQuick.innerHTML = ''; cwSendText(r); };
+      cwQuick.appendChild(b);
+    });
+  }
+  function cwScroll() { requestAnimationFrame(function(){ cwMsgs.scrollTop = cwMsgs.scrollHeight; }); }
+
+  window.cwSend = function() { var t = cwInput.value.trim(); if (!t) return; cwInput.value = ''; cwSendText(t); };
+
+  function cwSendText(text) {
+    cwQuick.innerHTML = '';
+    cwMsg('user', text);
+    cwHist.push({ role: 'user', content: text });
+    var typing = cwTyping();
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYS, messages: cwHist })
+    }).then(function(r){ return r.json(); }).then(function(d) {
+      var reply = (d && d.content && d.content[0] && d.content[0].text) || "Sorry, try again.";
+      typing.remove(); cwMsg('bot', reply);
+      cwHist.push({ role: 'assistant', content: reply });
+      if (cwHist.filter(function(m){ return m.role==='user'; }).length === 1) {
+        cwQR(["Tell me more","How do I contact you?","What's the pricing?"]);
+      }
+    }).catch(function() { typing.remove(); cwMsg('bot', "Something went wrong. Please use the contact form above."); });
+  }
+
+})();
+</script>
+</body>
+</html>
