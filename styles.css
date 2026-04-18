@@ -207,3 +207,20 @@
   @media (max-width:900px) { .hero-grid,.problem-grid,.about-grid { grid-template-columns: 1fr; } .services-grid,.testimonials-grid { grid-template-columns: 1fr; } .portfolio-grid { grid-template-columns: 1fr 1fr; } .footer-grid { grid-template-columns: 1fr 1fr; } .nav-links { display: none; } }
   @media (max-width:600px) { .portfolio-grid,.footer-grid { grid-template-columns: 1fr; } }
   @media (max-width:420px) { #cw-wrap { bottom: 16px; right: 12px; } #cw-panel { width: calc(100vw - 24px); } }
+
+:root { --pmg-h: 210px; }
+            .form-clip {
+              overflow: hidden;
+              height: 510px;
+              border-radius: 8px;
+              margin: 0 -8px;
+              position: relative;
+            }
+            .form-clip iframe {
+              width: calc(100% + 16px);
+              height: 740px;
+              border: none;
+              display: block;
+              margin-top: calc(-1 * var(--pmg-h));
+              transition: margin-top .15s;
+            }
