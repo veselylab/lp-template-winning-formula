@@ -197,7 +197,7 @@
 </head>
 <body>
 
-<nav>
+<nav data-section="navbar">
   <div class="container">
     <div>
       <div class="nav-logo">Brand<span>.</span></div>
@@ -213,8 +213,7 @@
   </div>
 </nav>
 
-<!-- 1. HEADLINE + CTA -->
-<section id="sec-1" class="section-wrap">
+<section id="sec-1" data-section="hero" class="section-wrap">
   <span class="sec-num">1</span>
   <div class="container">
     <div class="hero-grid">
@@ -230,41 +229,15 @@
             <h3>Get in Touch Today</h3>
             <p>Fill in the form — we'll get back within 24 hours.</p>
           </div>
-          <div id="lp-form-wrap">
-            <div class="lp-form">
-              <div>
-                <label for="f-name">Full Name *</label>
-                <input type="text" id="f-name" name="full_name" placeholder="Jan Novák" autocomplete="name" tabindex="1">
-              </div>
-              <div>
-                <label for="f-email">Email *</label>
-                <input type="email" id="f-email" name="email" placeholder="jan@firma.cz" autocomplete="email" tabindex="2">
-              </div>
-              <div>
-                <label for="f-phone">Phone</label>
-                <input type="tel" id="f-phone" name="phone" placeholder="+420 600 000 000" autocomplete="tel" tabindex="3">
-              </div>
-              <div>
-                <label for="f-msg">Message</label>
-                <textarea id="f-msg" name="message" placeholder="Tell us how we can help you..." tabindex="4"></textarea>
-              </div>
-              <button type="button" id="btn-send" class="btn-submit" tabindex="5">Send Message →</button>
-              <p class="form-note">🔒 Your information is 100% secure. No spam, ever.</p>
-            </div>
-          </div>
-          <div class="form-success" id="form-success">
-            <div class="check">✅</div>
-            <h4>Message Sent!</h4>
-            <p>Thank you — we'll be in touch within 24 hours.</p>
-          </div>
+          <iframe src="https://app.vesely.ai/forms/zcwb4aiz?embed=1" style="width:100%;height:420px;border:none;display:block;" scrolling="no" title="Contact form" loading="lazy"></iframe>
+          <p class="form-note" style="margin-top:10px;">🔒 Your information is 100% secure. No spam, ever.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 2. PROBLEM -->
-<section id="sec-2" class="section-wrap">
+<section id="sec-2" data-section="problem" class="section-wrap">
   <span class="sec-num" style="background:var(--blue-dk);">2</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="problem-grid">
@@ -284,8 +257,7 @@
   </div>
 </section>
 
-<!-- 3. SOLUTION -->
-<section id="sec-3" class="section-wrap">
+<section id="sec-3" data-section="services" class="section-wrap">
   <span class="sec-num">3</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -301,8 +273,7 @@
   </div>
 </section>
 
-<!-- 4. PORTFOLIO -->
-<section id="sec-4" class="section-wrap">
+<section id="sec-4" data-section="portfolio" class="section-wrap">
   <span class="sec-num" style="background:#16a34a;">4</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -321,8 +292,7 @@
   </div>
 </section>
 
-<!-- 5. TESTIMONIALS -->
-<section id="sec-5" class="section-wrap">
+<section id="sec-5" data-section="testimonials" class="section-wrap">
   <span class="sec-num" style="background:var(--blue);">5</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -338,8 +308,7 @@
   </div>
 </section>
 
-<!-- 6. ABOUT -->
-<section id="sec-6" class="section-wrap">
+<section id="sec-6" data-section="about" class="section-wrap">
   <span class="sec-num">6</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="about-grid">
@@ -359,8 +328,7 @@
   </div>
 </section>
 
-<!-- 7. FAQ -->
-<section id="sec-7" class="section-wrap">
+<section id="sec-7" data-section="faq" class="section-wrap">
   <span class="sec-num" style="background:var(--blue);">7</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -378,8 +346,7 @@
   </div>
 </section>
 
-<!-- 8. CTA -->
-<section id="sec-8" class="section-wrap">
+<section id="sec-8" data-section="cta" class="section-wrap">
   <span class="sec-num">8</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <span class="eyebrow">↳ 8. Call to Action</span>
@@ -389,8 +356,7 @@
   </div>
 </section>
 
-<!-- 9. FOOTER -->
-<footer id="sec-9">
+<footer id="sec-9" data-section="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
@@ -422,7 +388,6 @@
   </div>
 </footer>
 
-<!-- CHAT WIDGET -->
 <div id="cw-wrap">
   <div id="cw-panel">
     <div id="cw-header">
@@ -450,7 +415,6 @@
 (function() {
   'use strict';
 
-  // ── FAQ ──
   window.toggleFaq = function(btn) {
     var item = btn.closest('.faq-item');
     var isOpen = item.classList.contains('open');
@@ -458,29 +422,6 @@
     if (!isOpen) item.classList.add('open');
   };
 
-  // ── FORM SUBMIT ──
-  var WEBHOOK = 'https://app.vesely.ai/api/webhooks/flow/2515/2145b963bb2ffdefa584121ed4d99a2426a3d32d444d6559750469a04e036589';
-
-  document.getElementById('btn-send').addEventListener('click', function() {
-    var name  = document.getElementById('f-name').value.trim();
-    var email = document.getElementById('f-email').value.trim();
-    var phone = document.getElementById('f-phone').value.trim();
-    var msg   = document.getElementById('f-msg').value.trim();
-    if (!name || !email) { alert('Prosím vyplňte jméno a email.'); return; }
-    var btn = this;
-    btn.textContent = 'Odesílám…'; btn.disabled = true;
-    fetch(WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contactName: name, contactEmail: email, contactPhone: phone, data: { message: msg } })
-    }).catch(function(){}).finally(function() {
-      document.getElementById('lp-form-wrap').style.display = 'none';
-      var s = document.getElementById('form-success');
-      s.style.display = 'flex';
-    });
-  });
-
-  // ── CHAT WIDGET ──
   var cwMsgs = document.getElementById('cw-messages');
   var cwInput = document.getElementById('cw-input');
   var cwQuick = document.getElementById('cw-quick');
