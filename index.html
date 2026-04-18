@@ -196,48 +196,115 @@
 </script>  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 <nav>
   <div class="container">
-    <div><div class="nav-logo">Brand<span>.</span></div><div class="nav-tagline">Logo &amp; Tagline — always visible</div></div>
+    <div>
+      <div class="nav-logo">Brand<span>.</span></div>
+      <div class="nav-tagline">Logo &amp; Tagline — always visible</div>
+    </div>
     <ul class="nav-links">
-      <li><a href="#sec-2">Problem</a></li><li><a href="#sec-3">Services</a></li><li><a href="#sec-5">Testimonials</a></li><li><a href="#sec-7">FAQ</a></li><li><a href="#sec-8">Contact</a></li>
+      <li><a href="#sec-2">Problem</a></li>
+      <li><a href="#sec-3">Services</a></li>
+      <li><a href="#sec-5">Testimonials</a></li>
+      <li><a href="#sec-7">FAQ</a></li>
+      <li><a href="#sec-8">Contact</a></li>
     </ul>
   </div>
 </nav>
 
+<!-- ══ 1. HERO + PREMIUM FORM ══ -->
 <section id="sec-1" class="section-wrap">
   <span class="sec-num">1</span>
   <div class="container">
     <div class="hero-grid">
+
+      <!-- LEFT — Headline + benefits -->
       <div class="hero-left">
         <span class="eyebrow">↳ 1. Headline</span>
         <h1>Your Compelling Main Headline Goes Right Here</h1>
-        <p class="hero-sub">This is your tagline or supporting statement. Address the core pain, spark curiosity, and lead the eye to the form on the right.</p>
+        <p class="hero-sub">This is your tagline. Address the core pain clearly, spark curiosity, and make the form on the right feel like the obvious next step.</p>
+        <div class="hero-pills">
+          <div class="hero-pill">
+            <div class="hero-pill-icon">✓</div>
+            Key benefit #1 — why this matters to your visitor
+          </div>
+          <div class="hero-pill">
+            <div class="hero-pill-icon">✓</div>
+            Key benefit #2 — specific result or outcome
+          </div>
+          <div class="hero-pill">
+            <div class="hero-pill-icon">✓</div>
+            Key benefit #3 — trust signal or unique advantage
+          </div>
+        </div>
       </div>
+
+      <!-- RIGHT — Conversion form card -->
       <div>
         <div class="cta-card">
-          <div class="cta-card-header">
-            <span class="cta-badge">Call to Action</span>
-            <h3>Get in Touch Today</h3>
-            <p>Fill in the form — we'll get back within 24 hours.</p>
+
+          <!-- Social proof strip -->
+          <div class="cta-proof-strip">
+            <span class="cta-proof-stars">★★★★★</span>
+            <span class="cta-proof-text"><strong>4.9/5</strong> · 120+ spokojených klientů</span>
           </div>
-          
-          <div class="form-clip" id="form-clip">
-            <iframe
-              id="pmg-form-iframe"
-              src="https://app.vesely.ai/forms/zcwb4aiz"
-              title="Kontaktní formulář"
-              scrolling="no"
-              allowtransparency="true"
-            ></iframe>
+
+          <!-- Headline -->
+          <div class="cta-headline">Získejte bezplatnou konzultaci</div>
+          <div class="cta-subline">
+            Vyplňte formulář — ozveme se do <strong>24 hodin</strong> s konkrétním návrhem řešení.
           </div>
-          <p class="form-note">🔒 Vaše informace jsou v bezpečí. Bez spamu.</p>
+
+          <!-- Form -->
+          <div id="cta-form">
+            <div class="cta-field">
+              <label for="f-name">Celé jméno <span class="req">*</span></label>
+              <input type="text" id="f-name" placeholder="Jan Novák" autocomplete="name">
+            </div>
+            <div class="cta-field">
+              <label for="f-email">Pracovní e-mail <span class="req">*</span></label>
+              <input type="email" id="f-email" placeholder="jan@firma.cz" autocomplete="email">
+            </div>
+            <div class="cta-field">
+              <label for="f-msg">Co potřebujete vyřešit?</label>
+              <textarea id="f-msg" placeholder="Stručně popište váš cíl nebo problém…"></textarea>
+            </div>
+
+            <button type="button" id="cta-btn" class="cta-btn">
+              Chci bezplatnou konzultaci <span class="cta-btn-icon">→</span>
+            </button>
+
+            <div class="cta-trust">
+              <div class="cta-trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Zdarma &amp; nezávazně
+              </div>
+              <div class="cta-trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Odpověď do 24 h
+              </div>
+              <div class="cta-trust-item">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Bez spamu
+              </div>
+            </div>
+          </div>
+
+          <!-- Success state -->
+          <div class="cta-success" id="cta-success">
+            <div class="cta-success-icon">✅</div>
+            <h4>Zpráva odeslána!</h4>
+            <p>Děkujeme — ozveme se do 24 hodin s konkrétním návrhem.</p>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ══ 2. PROBLEM ══ -->
 <section id="sec-2" class="section-wrap">
   <span class="sec-num" style="background:var(--blue-dk);">2</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
@@ -258,6 +325,7 @@
   </div>
 </section>
 
+<!-- ══ 3. SOLUTION ══ -->
 <section id="sec-3" class="section-wrap">
   <span class="sec-num">3</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
@@ -274,6 +342,7 @@
   </div>
 </section>
 
+<!-- ══ 4. PORTFOLIO ══ -->
 <section id="sec-4" class="section-wrap">
   <span class="sec-num" style="background:#16a34a;">4</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
@@ -293,6 +362,7 @@
   </div>
 </section>
 
+<!-- ══ 5. TESTIMONIALS ══ -->
 <section id="sec-5" class="section-wrap">
   <span class="sec-num" style="background:var(--blue);">5</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
@@ -309,6 +379,7 @@
   </div>
 </section>
 
+<!-- ══ 6. ABOUT ══ -->
 <section id="sec-6" class="section-wrap">
   <span class="sec-num">6</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
@@ -329,6 +400,7 @@
   </div>
 </section>
 
+<!-- ══ 7. FAQ ══ -->
 <section id="sec-7" class="section-wrap">
   <span class="sec-num" style="background:var(--blue);">7</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
@@ -347,16 +419,18 @@
   </div>
 </section>
 
+<!-- ══ 8. CTA ══ -->
 <section id="sec-8" class="section-wrap">
   <span class="sec-num">8</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <span class="eyebrow">↳ 8. Call to Action</span>
     <h2>You've Read This Far — Now Take the Next Step</h2>
     <p>After reading your entire landing page, this CTA encourages people to take action.</p>
-    <a href="#sec-1" class="btn-cta">Get Started Today →</a>
+    <a href="#sec-1" class="btn-cta">Začít zdarma →</a>
   </div>
 </section>
 
+<!-- ══ 9. FOOTER ══ -->
 <footer id="sec-9">
   <div class="container">
     <div class="footer-grid">
@@ -371,7 +445,7 @@
       </div>
       <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Service One</a></li><li><a href="#">Service Two</a></li><li><a href="#">Service Three</a></li><li><a href="#">All Services</a></li></ul></div>
       <div class="footer-col"><h4>Company</h4><ul><li><a href="#sec-6">About Us</a></li><li><a href="#sec-5">Testimonials</a></li><li><a href="#sec-4">Portfolio</a></li><li><a href="#">Blog</a></li></ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">hello@brand.com</a></li><li><a href="#">+420 000 000 000</a></li><li><a href="#sec-7">FAQ</a></li><li><a href="#sec-1">Get a Quote</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="#">hello@brand.com</a></li><li><a href="#">+420 000 000 000</a></li><li><a href="#sec-7">FAQ</a></li><li><a href="#sec-1">Konzultace zdarma</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <p>© 2025 Brand Name · All rights reserved</p>
@@ -412,6 +486,23 @@
 <script>
 (function(){
   window.toggleFaq=function(btn){var item=btn.closest('.faq-item'),open=item.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');});if(!open)item.classList.add('open');};
+
+  // ── FORM SUBMIT ──
+  var WEBHOOK='https://app.vesely.ai/api/webhooks/flow/2515/2145b963bb2ffdefa584121ed4d99a2426a3d32d444d6559750469a04e036589';
+  document.getElementById('cta-btn').addEventListener('click',function(){
+    var name=document.getElementById('f-name').value.trim();
+    var email=document.getElementById('f-email').value.trim();
+    var msg=document.getElementById('f-msg').value.trim();
+    if(!name||!email){alert('Prosím vyplňte jméno a e-mail.');return;}
+    var btn=this; btn.textContent='Odesílám…'; btn.disabled=true;
+    fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contactName:name,contactEmail:email,contactPhone:'',data:{message:msg}})})
+    .catch(function(){}).finally(function(){
+      document.getElementById('cta-form').style.display='none';
+      document.getElementById('cta-success').style.display='flex';
+    });
+  });
+
+  // ── CHAT WIDGET ──
   var cwMsgs=document.getElementById('cw-messages'),cwInput=document.getElementById('cw-input'),cwQuick=document.getElementById('cw-quick'),cwPanel=document.getElementById('cw-panel'),cwBtn=document.getElementById('cw-toggle'),cwNotif=document.getElementById('cw-notif');
   var cwOpen=false,cwHist=[];
   var SYS='You are a friendly, professional assistant on a B2B landing page. Help visitors understand the services, answer questions, and guide them toward filling in the contact form. Keep answers short (2-4 sentences). Always reply in the same language the user writes in.';
@@ -424,7 +515,7 @@
   function cwQR(list){cwQuick.innerHTML='';list.forEach(function(r){var b=document.createElement('button');b.className='cw-qr';b.textContent=r;b.onclick=function(){cwQuick.innerHTML='';cwSendText(r);};cwQuick.appendChild(b);});}
   function cwScroll(){requestAnimationFrame(function(){cwMsgs.scrollTop=cwMsgs.scrollHeight;});}
   window.cwSend=function(){var t=cwInput.value.trim();if(!t)return;cwInput.value='';cwSendText(t);};
-  function cwSendText(text){cwQuick.innerHTML='';cwMsg('user',text);cwHist.push({role:'user',content:text});var typing=cwTyping();fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:cwHist})}).then(function(r){return r.json();}).then(function(d){var reply=(d&&d.content&&d.content[0]&&d.content[0].text)||"Sorry, try again.";typing.remove();cwMsg('bot',reply);cwHist.push({role:'assistant',content:reply});if(cwHist.filter(function(m){return m.role==='user';}).length===1){cwQR(["Tell me more","How do I contact you?","What's the pricing?"]);}}).catch(function(){typing.remove();cwMsg('bot',"Something went wrong. Please use the contact form above.");});}
+  function cwSendText(text){cwQuick.innerHTML='';cwMsg('user',text);cwHist.push({role:'user',content:text});var typing=cwTyping();fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:cwHist})}).then(function(r){return r.json();}).then(function(d){var reply=(d&&d.content&&d.content[0]&&d.content[0].text)||"Sorry, try again.";typing.remove();cwMsg('bot',reply);cwHist.push({role:'assistant',content:reply});if(cwHist.filter(function(m){return m.role==='user';}).length===1){cwQR(["Tell me more","How do I contact you?","What's the pricing?"]);} }).catch(function(){typing.remove();cwMsg('bot',"Something went wrong. Please use the contact form above.");});}
 })();
 </script>
 </body>
