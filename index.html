@@ -197,7 +197,7 @@
 </head>
 <body>
 
-<nav data-section="navbar">
+<nav>
   <div class="container">
     <div>
       <div class="nav-logo">Brand<span>.</span></div>
@@ -213,7 +213,7 @@
   </div>
 </nav>
 
-<section id="sec-1" data-section="hero" class="section-wrap">
+<section id="sec-1" class="section-wrap">
   <span class="sec-num">1</span>
   <div class="container">
     <div class="hero-grid">
@@ -229,15 +229,36 @@
             <h3>Get in Touch Today</h3>
             <p>Fill in the form — we'll get back within 24 hours.</p>
           </div>
-          <iframe src="https://app.vesely.ai/forms/zcwb4aiz?embed=1" style="width:100%;height:420px;border:none;display:block;" scrolling="no" title="Contact form" loading="lazy"></iframe>
-          <p class="form-note" style="margin-top:10px;">🔒 Your information is 100% secure. No spam, ever.</p>
+          <div class="form-group">
+            <label for="f-name">Celé jméno *</label>
+            <input type="text" id="f-name" placeholder="Jan Novák" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="f-email">Email *</label>
+            <input type="email" id="f-email" placeholder="jan@firma.cz" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="f-phone">Telefon</label>
+            <input type="tel" id="f-phone" placeholder="+420 600 000 000" autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label for="f-msg">Zpráva</label>
+            <textarea id="f-msg" placeholder="Napište nám, jak vám můžeme pomoci..."></textarea>
+          </div>
+          <button type="button" id="btn-submit" class="btn-submit">Odeslat zprávu →</button>
+          <p class="form-note" id="form-note">🔒 Vaše informace jsou v bezpečí. Bez spamu.</p>
+          <div class="form-success" id="form-success">
+            <div class="check">✅</div>
+            <h4>Zpráva odeslána!</h4>
+            <p>Děkujeme — ozveme se do 24 hodin.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="sec-2" data-section="problem" class="section-wrap">
+<section id="sec-2" class="section-wrap">
   <span class="sec-num" style="background:var(--blue-dk);">2</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="problem-grid">
@@ -257,7 +278,7 @@
   </div>
 </section>
 
-<section id="sec-3" data-section="services" class="section-wrap">
+<section id="sec-3" class="section-wrap">
   <span class="sec-num">3</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -273,7 +294,7 @@
   </div>
 </section>
 
-<section id="sec-4" data-section="portfolio" class="section-wrap">
+<section id="sec-4" class="section-wrap">
   <span class="sec-num" style="background:#16a34a;">4</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -292,7 +313,7 @@
   </div>
 </section>
 
-<section id="sec-5" data-section="testimonials" class="section-wrap">
+<section id="sec-5" class="section-wrap">
   <span class="sec-num" style="background:var(--blue);">5</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -308,7 +329,7 @@
   </div>
 </section>
 
-<section id="sec-6" data-section="about" class="section-wrap">
+<section id="sec-6" class="section-wrap">
   <span class="sec-num">6</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="about-grid">
@@ -328,7 +349,7 @@
   </div>
 </section>
 
-<section id="sec-7" data-section="faq" class="section-wrap">
+<section id="sec-7" class="section-wrap">
   <span class="sec-num" style="background:var(--blue);">7</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -346,7 +367,7 @@
   </div>
 </section>
 
-<section id="sec-8" data-section="cta" class="section-wrap">
+<section id="sec-8" class="section-wrap">
   <span class="sec-num">8</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <span class="eyebrow">↳ 8. Call to Action</span>
@@ -356,7 +377,7 @@
   </div>
 </section>
 
-<footer id="sec-9" data-section="footer">
+<footer id="sec-9">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
@@ -412,86 +433,65 @@
 </div>
 
 <script>
-(function() {
-  'use strict';
-
+(function(){
+  // ── FAQ ──
   window.toggleFaq = function(btn) {
     var item = btn.closest('.faq-item');
-    var isOpen = item.classList.contains('open');
+    var open = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(function(i){ i.classList.remove('open'); });
-    if (!isOpen) item.classList.add('open');
+    if (!open) item.classList.add('open');
   };
 
+  // ── CONTACT FORM ──
+  var WEBHOOK = 'https://app.vesely.ai/api/webhooks/flow/2515/2145b963bb2ffdefa584121ed4d99a2426a3d32d444d6559750469a04e036589';
+  document.getElementById('btn-submit').addEventListener('click', function() {
+    var name  = document.getElementById('f-name').value.trim();
+    var email = document.getElementById('f-email').value.trim();
+    var phone = document.getElementById('f-phone').value.trim();
+    var msg   = document.getElementById('f-msg').value.trim();
+    if (!name || !email) { alert('Prosím vyplňte jméno a email.'); return; }
+    var btn = this; btn.textContent = 'Odesílám…'; btn.disabled = true;
+    fetch(WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contactName: name, contactEmail: email, contactPhone: phone, data: { message: msg } })
+    }).catch(function(){}).finally(function(){
+      ['f-name','f-email','f-phone','f-msg','btn-submit','form-note'].forEach(function(id){
+        var el = document.getElementById(id); if(el) el.style.display='none';
+      });
+      document.querySelectorAll('.form-group').forEach(function(el){ el.style.display='none'; });
+      document.getElementById('form-success').style.display = 'flex';
+    });
+  });
+
+  // ── CHAT WIDGET ──
   var cwMsgs = document.getElementById('cw-messages');
   var cwInput = document.getElementById('cw-input');
   var cwQuick = document.getElementById('cw-quick');
   var cwPanel = document.getElementById('cw-panel');
   var cwBtn   = document.getElementById('cw-toggle');
   var cwNotif = document.getElementById('cw-notif');
-  var cwOpen  = false;
-  var cwHist  = [];
-
-  var SYS = 'You are a friendly, professional assistant on a B2B landing page. Help visitors understand the services, answer questions, and guide them toward filling in the contact form. Keep answers short (2-4 sentences). Be warm and direct. Always reply in the same language the user writes in.';
-  var GREETING = "👋 Hi there! I'm here to help. What can I tell you about our services?";
-
-  setTimeout(function() {
-    cwMsg('bot', GREETING);
-    cwQR(["What do you offer?","How does it work?","What's the pricing?","Get started"]);
-    cwHist.push({ role: 'assistant', content: GREETING });
-  }, 800);
-
-  window.cwToggle = function() {
-    cwOpen = !cwOpen;
-    cwPanel.classList.toggle('open', cwOpen);
-    cwBtn.classList.toggle('active', cwOpen);
-    if (cwNotif) cwNotif.remove();
-    if (cwOpen) { setTimeout(function(){ cwInput.focus(); }, 300); cwScroll(); }
-  };
-  window.cwClose = function() { cwOpen = false; cwPanel.classList.remove('open'); cwBtn.classList.remove('active'); };
-
-  function cwMsg(role, text) {
-    var w = document.createElement('div'); w.className = 'cw-msg ' + role;
-    w.innerHTML = role === 'bot'
-      ? '<div class="cw-msg-avatar">🤖</div><div class="cw-bubble">' + text + '</div>'
-      : '<div class="cw-bubble">' + text + '</div>';
-    cwMsgs.appendChild(w); cwScroll(); return w;
+  var cwOpen  = false, cwHist = [];
+  var SYS = 'You are a friendly, professional assistant on a B2B landing page. Help visitors understand the services, answer questions, and guide them toward filling in the contact form. Keep answers short (2-4 sentences). Always reply in the same language the user writes in.';
+  var GREET = "👋 Hi there! I'm here to help. What can I tell you about our services?";
+  setTimeout(function(){ cwMsg('bot',GREET); cwQR(["What do you offer?","How does it work?","What's the pricing?","Get started"]); cwHist.push({role:'assistant',content:GREET}); }, 800);
+  window.cwToggle = function(){ cwOpen=!cwOpen; cwPanel.classList.toggle('open',cwOpen); cwBtn.classList.toggle('active',cwOpen); if(cwNotif)cwNotif.remove(); if(cwOpen){setTimeout(function(){cwInput.focus();},300);cwScroll();} };
+  window.cwClose  = function(){ cwOpen=false; cwPanel.classList.remove('open'); cwBtn.classList.remove('active'); };
+  function cwMsg(r,t){ var w=document.createElement('div'); w.className='cw-msg '+r; w.innerHTML=r==='bot'?'<div class="cw-msg-avatar">🤖</div><div class="cw-bubble">'+t+'</div>':'<div class="cw-bubble">'+t+'</div>'; cwMsgs.appendChild(w); cwScroll(); return w; }
+  function cwTyping(){ var w=document.createElement('div'); w.className='cw-msg bot cw-typing'; w.innerHTML='<div class="cw-msg-avatar">🤖</div><div class="cw-bubble"><div class="cw-dots"><span></span><span></span><span></span></div></div>'; cwMsgs.appendChild(w); cwScroll(); return w; }
+  function cwQR(list){ cwQuick.innerHTML=''; list.forEach(function(r){ var b=document.createElement('button'); b.className='cw-qr'; b.textContent=r; b.onclick=function(){cwQuick.innerHTML='';cwSendText(r);}; cwQuick.appendChild(b); }); }
+  function cwScroll(){ requestAnimationFrame(function(){ cwMsgs.scrollTop=cwMsgs.scrollHeight; }); }
+  window.cwSend = function(){ var t=cwInput.value.trim(); if(!t)return; cwInput.value=''; cwSendText(t); };
+  function cwSendText(text){
+    cwQuick.innerHTML=''; cwMsg('user',text); cwHist.push({role:'user',content:text});
+    var typing=cwTyping();
+    fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:cwHist})})
+    .then(function(r){return r.json();}).then(function(d){
+      var reply=(d&&d.content&&d.content[0]&&d.content[0].text)||"Sorry, try again.";
+      typing.remove(); cwMsg('bot',reply); cwHist.push({role:'assistant',content:reply});
+      if(cwHist.filter(function(m){return m.role==='user';}).length===1){ cwQR(["Tell me more","How do I contact you?","What's the pricing?"]); }
+    }).catch(function(){ typing.remove(); cwMsg('bot',"Something went wrong. Please use the contact form above."); });
   }
-  function cwTyping() {
-    var w = document.createElement('div'); w.className = 'cw-msg bot cw-typing';
-    w.innerHTML = '<div class="cw-msg-avatar">🤖</div><div class="cw-bubble"><div class="cw-dots"><span></span><span></span><span></span></div></div>';
-    cwMsgs.appendChild(w); cwScroll(); return w;
-  }
-  function cwQR(list) {
-    cwQuick.innerHTML = '';
-    list.forEach(function(r) {
-      var b = document.createElement('button'); b.className = 'cw-qr'; b.textContent = r;
-      b.onclick = function() { cwQuick.innerHTML = ''; cwSendText(r); };
-      cwQuick.appendChild(b);
-    });
-  }
-  function cwScroll() { requestAnimationFrame(function(){ cwMsgs.scrollTop = cwMsgs.scrollHeight; }); }
-
-  window.cwSend = function() { var t = cwInput.value.trim(); if (!t) return; cwInput.value = ''; cwSendText(t); };
-
-  function cwSendText(text) {
-    cwQuick.innerHTML = '';
-    cwMsg('user', text);
-    cwHist.push({ role: 'user', content: text });
-    var typing = cwTyping();
-    fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: SYS, messages: cwHist })
-    }).then(function(r){ return r.json(); }).then(function(d) {
-      var reply = (d && d.content && d.content[0] && d.content[0].text) || "Sorry, try again.";
-      typing.remove(); cwMsg('bot', reply);
-      cwHist.push({ role: 'assistant', content: reply });
-      if (cwHist.filter(function(m){ return m.role==='user'; }).length === 1) {
-        cwQR(["Tell me more","How do I contact you?","What's the pricing?"]);
-      }
-    }).catch(function() { typing.remove(); cwMsg('bot', "Something went wrong. Please use the contact form above."); });
-  }
-
 })();
 </script>
 </body>
