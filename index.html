@@ -197,7 +197,7 @@
 </head>
 <body>
 
-<nav>
+<nav data-section="navbar">
   <div class="container">
     <div>
       <div class="nav-logo">Brand<span>.</span></div>
@@ -213,7 +213,7 @@
   </div>
 </nav>
 
-<section id="sec-1" class="section-wrap">
+<section data-section="hero" id="sec-1" class="section-wrap">
   <span class="sec-num">1</span>
   <div class="container">
     <div class="hero-grid">
@@ -229,15 +229,18 @@
             <h3>Get in Touch Today</h3>
             <p>Fill in the form — we'll get back within 24 hours.</p>
           </div>
-          <!-- PMG form embed — header clipped via overflow:hidden + negative margin-top -->
-          <div class="form-iframe-wrap">
+          <!-- PMG form embed — header auto-clip -->
+          
+          <div class="form-clip" id="form-clip">
             <iframe
+              id="pmg-form-iframe"
               src="https://app.vesely.ai/forms/zcwb4aiz"
               title="Kontaktní formulář"
               scrolling="no"
               allowtransparency="true"
             ></iframe>
           </div>
+          
           <p class="form-note">🔒 Vaše informace jsou v bezpečí. Bez spamu.</p>
         </div>
       </div>
@@ -245,7 +248,7 @@
   </div>
 </section>
 
-<section id="sec-2" class="section-wrap">
+<section data-section="problem" id="sec-2" class="section-wrap">
   <span class="sec-num" style="background:var(--blue-dk);">2</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="problem-grid">
@@ -265,7 +268,7 @@
   </div>
 </section>
 
-<section id="sec-3" class="section-wrap">
+<section data-section="services" id="sec-3" class="section-wrap">
   <span class="sec-num">3</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -281,7 +284,7 @@
   </div>
 </section>
 
-<section id="sec-4" class="section-wrap">
+<section data-section="portfolio" id="sec-4" class="section-wrap">
   <span class="sec-num" style="background:#16a34a;">4</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -300,7 +303,7 @@
   </div>
 </section>
 
-<section id="sec-5" class="section-wrap">
+<section data-section="testimonials" id="sec-5" class="section-wrap">
   <span class="sec-num" style="background:var(--blue);">5</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -316,7 +319,7 @@
   </div>
 </section>
 
-<section id="sec-6" class="section-wrap">
+<section data-section="about" id="sec-6" class="section-wrap">
   <span class="sec-num">6</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="about-grid">
@@ -336,7 +339,7 @@
   </div>
 </section>
 
-<section id="sec-7" class="section-wrap">
+<section data-section="faq" id="sec-7" class="section-wrap">
   <span class="sec-num" style="background:var(--blue);">7</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <div class="section-header">
@@ -354,7 +357,7 @@
   </div>
 </section>
 
-<section id="sec-8" class="section-wrap">
+<section data-section="cta" id="sec-8" class="section-wrap">
   <span class="sec-num">8</span>
   <div class="container" style="padding-top:90px;padding-bottom:80px;">
     <span class="eyebrow">↳ 8. Call to Action</span>
@@ -364,7 +367,7 @@
   </div>
 </section>
 
-<footer id="sec-9">
+<footer data-section="footer" id="sec-9">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
@@ -450,5 +453,6 @@
   }
 })();
 </script>
+  <script src="script.js"></script>
 </body>
 </html>
