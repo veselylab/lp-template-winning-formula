@@ -224,3 +224,19 @@
               margin-top: calc(-1 * var(--pmg-h));
               transition: margin-top .15s;
             }
+
+.form-clip {
+      overflow: hidden;
+      height: 600px;
+      border-radius: 8px;
+      margin: 0 -8px;
+      position: relative;
+    }
+    .form-clip iframe {
+      width: calc(100% + 16px);
+      height: 830px;
+      border: none;
+      display: block;
+      margin-top: calc(-1 * var(--pmg-h));
+      transition: margin-top .15s;
+    }
